@@ -2,6 +2,7 @@
 using Core.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Core.DataAccess.EntityFramework
 {
     public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
@@ -9,20 +10,21 @@ namespace Core.DataAccess.EntityFramework
         where TContext : DbContext
     {
         private readonly TContext Context;
+
         public EfEntityRepositoryBase(TContext context)
         {
             this.Context = context;
         }
 
-        public TEntity Add(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
             entity.CreatedAt = DateTime.Now;
-            Context.Add(entity);
-            Context.SaveChanges();
+            await Context.AddAsync(entity);
+            await Context.SaveChangesAsync();
             return entity;
         }
 
-        public TEntity Delete(TEntity entity, bool isSoftDelete = true)
+        public async Task<TEntity> DeleteAsync(TEntity entity, bool isSoftDelete = true)
         {
             entity.DeletedAt = DateTime.UtcNow;
             Context.Entry(entity).State = EntityState.Modified;
@@ -30,30 +32,30 @@ namespace Core.DataAccess.EntityFramework
             if (isSoftDelete)
                 Context.Remove(entity);
 
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
             return entity;
         }
 
-        public TEntity? Get(Func<TEntity, bool> predicate)
+        public async Task<TEntity?> GetAsync(Func<TEntity, bool> predicate)
         {
-            return Context.Set<TEntity>().FirstOrDefault(predicate);
+            return await Task.Run(() => Context.Set<TEntity>().FirstOrDefault(predicate));
         }
 
-        public IList<TEntity> GetList(Func<TEntity, bool>? predicate = null)
+        public async Task<IList<TEntity>> GetListAsync(Func<TEntity, bool>? predicate = null)
         {
             IQueryable<TEntity> entities = Context.Set<TEntity>();
 
             if (predicate != null)
                 entities = entities.Where(predicate).AsQueryable();
 
-            return entities.ToList();
+            return await entities.ToListAsync();
         }
 
-        public TEntity Update(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             entity.UpdatedAt = DateTime.UtcNow;
             Context.Update(entity);
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
             return entity;
         }
     }

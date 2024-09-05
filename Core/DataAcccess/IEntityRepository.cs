@@ -1,10 +1,11 @@
 ﻿namespace Core.DataAcccess;
 
 public interface IEntityRepository<TEntity>
+    where TEntity : class
 {
-    public IList<TEntity> GetList(Func<TEntity, bool>? predicate = null);
-    public TEntity? Get(Func<TEntity, bool> predicate);
-    public TEntity Add(TEntity entity);
-    public TEntity Update(TEntity entity);
-    public TEntity Delete(TEntity entity, bool isSoftDelete = true);
+    Task<TEntity> AddAsync(TEntity entity);
+    Task<TEntity> DeleteAsync(TEntity entity, bool isSoftDelete = true);
+    Task<TEntity?> GetAsync(Func<TEntity, bool> predicate);
+    Task<IList<TEntity>> GetListAsync(Func<TEntity, bool>? predicate = null);
+    Task<TEntity> UpdateAsync(TEntity entity);
 }
