@@ -56,11 +56,11 @@ namespace Presentation.Controllers
             return Ok(response);
         }
 
-        [HttpPost("cars/{id}/headlights")]
-        public async Task<IActionResult> ToggleHeadlights([FromBody] ToggleHeadlightsRequest request)
+        [HttpPost("{id}/headlights")]
+        public async Task<IActionResult> ToggleHeadlights([FromRoute] Guid id, [FromBody] ToggleHeadlightsRequest request)
         {
-            // burdan devam et
-            return null;
+            var car = await _carService.ToggleHeadlightsAsync(id, request.HeadlightsOn);
+            return Ok(car);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Requests.Car;
 using Application.Responses.Car;
+using Core.Entities.Concrete;
 
 namespace Application.Services.Abstract
 {
@@ -10,5 +11,6 @@ namespace Application.Services.Abstract
         Task<GetCarByIdResponse> GetCarByIdAsync(GetCarByIdRequest request);
         Task<UpdatedCarResponse> UpdateCarAsync(UpdateCarRequest request);
         Task<DeletedCarResponse> DeleteCarAsync(DeleteCarRequest request);
+        Task<Car> ToggleHeadlightsAsync(Guid id, bool headlightsOn);
     }
 }

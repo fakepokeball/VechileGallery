@@ -23,6 +23,9 @@ namespace Application.Profiles.Mapping.AutoMapper
 
             CreateMap<UpdateCarRequest, Car>();
             CreateMap<Car, UpdatedCarResponse>();
+
+            CreateMap<ToggleHeadlightsRequest, Car>()
+            .ForMember(dest => dest.HeadlightsOn, opt => opt.MapFrom(src => src.HeadlightsOn));
         }
     }
 }
