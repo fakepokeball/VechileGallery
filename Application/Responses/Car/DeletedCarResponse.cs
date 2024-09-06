@@ -8,5 +8,6 @@ namespace Application.Responses.Car
         public Color Color { get; set; }
         public int NumberOfWheels { get; set; }
         public bool HeadlightsOn { get; set; }
+        public DateTime DeletedAt { get; set; }
     }
 }

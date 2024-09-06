@@ -1,4 +1,5 @@
 ﻿using Application.Requests.Car;
+using Application.Responses.Car;
 using Application.Services.Abstract;
 using Core.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("color")]
-        public async Task<IActionResult> GetCarsByColor([FromQuery] Color color)
+        public async Task<IActionResult> GetCarsByColor([FromQuery] Color? color)
         {
             var request = new GetCarListRequest { FilterByColor = color };
             var response = await _carService.GetCarsByColorAsync(request);
@@ -53,6 +54,13 @@ namespace Presentation.Controllers
             var request = new DeleteCarRequest { Id = id };
             var response = await _carService.DeleteCarAsync(request);
             return Ok(response);
+        }
+
+        [HttpPost("cars/{id}/headlights")]
+        public async Task<IActionResult> ToggleHeadlights([FromBody] ToggleHeadlightsRequest request)
+        {
+            // burdan devam et
+            return null;
         }
     }
 }

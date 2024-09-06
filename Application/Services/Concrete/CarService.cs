@@ -75,5 +75,15 @@ namespace Application.Services.Concrete
             return response;
         }
 
+        public async Task<Car> ToggleHeadlightsAsync(Guid id, bool headlightsOn)
+        {
+            var car = await _carRepository.GetAsync(c => c.Id == id);
+
+            _carBusinessRules.CheckIfCarExists(car);
+
+            car.HeadlightsOn = headlightsOn;
+            return await _carRepository.UpdateAsync(car);
+        }
+
     }
 }

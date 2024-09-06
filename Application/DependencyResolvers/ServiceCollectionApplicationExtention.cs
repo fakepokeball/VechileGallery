@@ -14,10 +14,19 @@ namespace Application.DependencyResolvers
             IConfiguration configuration
         )
         {
+            services.AddScoped<IVehicleService, VehicleService>();
 
             services
                 .AddScoped<ICarService, CarService>()
                 .AddScoped<CarBusinessRules>();
+
+            services
+                .AddScoped<IBusService, BusService>()
+                .AddScoped<BusBusinessRules>();
+
+            services
+                .AddScoped<IBoatService, BoatService>()
+                .AddScoped<BoatBusinessRules>();
 
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly()); 
